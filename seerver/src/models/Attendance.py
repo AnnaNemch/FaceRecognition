@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from ..services.database import Base
+from marshmallow import Schema, fields, pprint
 
 class Attendance(Base):
     """ Attendance Model for storing user attendance """
@@ -16,3 +17,11 @@ class Attendance(Base):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+class AttendanceSchema(Schema):
+    """ Serializable Attendance Schema """
+    id = fields.Str()
+    date_time = fields.DateTime()
+    photo_link = fields.Str()
+    # TODO :: add user data
+    # user_id = Column(Integer, ForeignKey("user.id"))

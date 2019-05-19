@@ -1,9 +1,6 @@
 from sqlalchemy import Column, Integer, String
-import jwt
 from ..services.database import Base, session
-from flask import current_app
 from marshmallow import Schema, fields, pprint
-from app import ma
 
 class User(Base):
     """ User Model for storing user related details """
@@ -15,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True)
     phone = Column(String, unique=True)
     password = Column(String, nullable=False)
+    # TODO :: add field isGuest and user_name
 
     def __init__(self, first_name, last_name, email, phone, password):
         self.first_name = first_name
@@ -26,10 +24,10 @@ class User(Base):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-class UserSchema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ('first_name', 'last_name', 'email', 'phone')
-
-user_schema = UserSchema()
-
+class UserSchema(Schema):
+    """ Serializable User Schema """
+    first_name = fields.Str()
+    last_name = fields.Str()
+    email = fields.Str()
+    phone = fields.Str()
+    
